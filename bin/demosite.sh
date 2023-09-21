@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 source .env
-APP_NAME='drupal'
+APP_NAME='laravel'
 CONT_NAME='litespeed'
 DOC_FD=''
 
@@ -13,7 +13,7 @@ echow(){
 help_message(){
     case ${1} in
         "1")    
-            echow "Script will get 'DOMAIN' and 'database' info from .env file, then auto setup virtual host and the drupal site for you."
+            echow "Script will get 'DOMAIN' and 'database' info from .env file, then auto setup virtual host and the laravel site for you."
             exit 0
         ;;
         "2")
@@ -74,13 +74,10 @@ install_packages(){
     if [ "${1}" = 'wordpress' ]; then
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package ed"
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"  
-    elif [ "${1}" = 'magento' ]; then
+    elif [ "${1}" = 'laravel' ]; then
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package composer"
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package git"
-    elif [ "${1}" = 'drupal' ]; then
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package composer"
-		docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package drush"
+        #docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
+        #docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package git"
     fi    
 }
 

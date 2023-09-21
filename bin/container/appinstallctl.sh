@@ -19,8 +19,8 @@ echow(){
 
 help_message(){
 	echo -e "\033[1mOPTIONS\033[0m"
-    echow '-A, -app [drupal] -D, --domain [DOMAIN_NAME]'
-    echo "${EPACE}${EPACE}Example: appinstallctl.sh --app drupal --domain example.com"
+    echow '-A, -app [laravel] -D, --domain [DOMAIN_NAME]'
+    echo "${EPACE}${EPACE}Example: appinstallctl.sh --app laravel --domain example.com"
     echow '-H, --help'
     echo "${EPACE}${EPACE}Display help and exit."
     exit 0
@@ -90,43 +90,17 @@ check_sql_native(){
 	done
 }
 
-app_drupal_dl(){
-    echo 'Download Drupal CMS'
+app_laravel_dl(){
+    echo 'Download laravel CMS'
     if [ ! -d "${VH_DOC_ROOT}/sites" ]; then
-        /usr/bin/composer create-project --no-interaction drupal/recommended-project ${VH_DOC_ROOT}/ >/dev/null 2>&1
-        cd ${VH_DOC_ROOT}/ && /usr/bin/composer require drush/drush -q
+        /usr/bin/composer create-project --no-interaction laravel/laravel ${VH_DOC_ROOT}/ >/dev/null 2>&1
+        #cd ${VH_DOC_ROOT}/ && /usr/bin/composer require drush/drush -q
     else
-        echo 'Drupal already exist, abort!'
+        echo 'Laravel already exist, abort!'
         exit 1
     fi	
 }
 
-cache_plugin_dl(){
-    echo 'Download Cache Plugin'
-    if [ -d "${VH_DOC_ROOT}/web/modules" ] && [ ! -d "${VH_DOC_ROOT}/web/modules/lscache-drupal-master" ]; then 
-        cd ${VH_DOC_ROOT}/web/modules
-        wget https://github.com/litespeedtech/lscache-drupal/archive/master.zip -O master.zip -q 
-        unzip -qq master.zip
-        rm -f master.zip
-    else
-        echo 'Skip cache plugin download!'    
-    fi
-}
-
-
-install_drupal(){
-	echo 'Install Drupal'
-	export COMPOSER_ALLOW_SUPERUSER=1
-    cd ${VH_DOC_ROOT}
-
-	/usr/bin/drush -y site-install standard \
-	    "--db-url=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}/${MYSQL_DATABASE}" \
-		"--account-name=${DRUPAL_USERNAME}" \
-		"--account-pass=${DRUPAL_PASSWORD}" \
-		"--account-mail=${DRUPAL_EMAIL}" \
-		"--site-name=${DRUPAL_SITE_NAME}" \
-		"--site-mail=${DRUPAL_SITE_EMAIL}"
-}
 
 install_lscache(){
 	echo 'Install LSCache'
@@ -149,12 +123,10 @@ main(){
 	set_vh_docroot ${DOMAIN}
 	get_owner
 	cd ${VH_DOC_ROOT}
-	if [ "${APP_NAME}" = 'drupal' ] || [ "${APP_NAME}" = 'dp' ]; then
+	if [ "${APP_NAME}" = 'laravel' ]; then
 		check_sql_native
-		app_drupal_dl
-		cache_plugin_dl
-		install_drupal
-		install_lscache
+		app_laravel_dl
+		#install_lscache
 		change_owner
 		exit 0
 	else

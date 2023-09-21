@@ -13,16 +13,16 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_HOST: ${MYSQL_HOST}
-      DRUPAL_USERNAME: ${DRUPAL_USERNAME}
-      DRUPAL_EMAIL: ${DRUPAL_EMAIL}
-      DRUPAL_PASSWORD: ${DRUPAL_PASSWORD}
-      DRUPAL_SITE_NAME: ${DRUPAL_SITE_NAME}
-      DRUPAL_SITE_EMAIL: ${DRUPAL_SITE_EMAIL}
+      LARAVEL_USERNAME: ${LARAVEL_USERNAME}
+      LARAVEL_EMAIL: ${LARAVEL_EMAIL}
+      LARAVEL_PASSWORD: ${LARAVEL_PASSWORD}
+      LARAVEL_SITE_NAME: ${LARAVEL_SITE_NAME}
+      LARAVEL_SITE_EMAIL: ${LARAVEL_SITE_EMAIL}
     restart: always
     networks:
       - default
   litespeed:
-    image: litespeedtech/openlitespeed-drush:${OLS_VERSION}-${PHP_VERSION}
+    image: litespeedtech/openlitespeed:${OLS_VERSION}-${PHP_VERSION}
     logging:
       driver: none
     env_file:

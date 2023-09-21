@@ -12,8 +12,8 @@ echow(){
 help_message(){
     echo -e "\033[1mOPTIONS\033[0m"
     echow '-A, --app [app_name] -D, --domain [DOMAIN_NAME]'
-    echo "${EPACE}${EPACE}Example: appinstall.sh -A drupal -D example.com"
-    echo "${EPACE}${EPACE}Will install Drupal CMS under the example.com domain"
+    echo "${EPACE}${EPACE}Example: appinstall.sh -A laravel -D example.com"
+    echo "${EPACE}${EPACE}Will install Laravel CMS under the example.com domain"
     echow '-H, --help'
     echo "${EPACE}${EPACE}Display help and exit."
     exit 0
@@ -30,19 +30,14 @@ install_packages(){
     if [ "${1}" = 'wordpress' ]; then
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package ed"
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"  
-    elif [ "${1}" = 'magento' ]; then
+    elif [ "${1}" = 'laravel' ]; then
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package composer"
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package git"
-    elif [ "${1}" = 'drupal' ]; then
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package composer"
-        docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
-		docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package drush"
+        #docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
+		#docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package git"
     fi    
 }
 
 app_download(){
-    #install_packages ${1}
     docker compose exec litespeed su -c "appinstallctl.sh --app ${1} --domain ${2}"
     bash bin/webadmin.sh -r
     exit 0
