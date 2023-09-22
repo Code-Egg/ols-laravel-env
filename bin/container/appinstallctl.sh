@@ -93,8 +93,7 @@ check_sql_native(){
 app_laravel_dl(){
     echo 'Download laravel CMS'
     if [ ! -d "${VH_DOC_ROOT}/sites" ]; then
-        /usr/bin/composer create-project --no-interaction laravel/laravel ${VH_DOC_ROOT}/ >/dev/null 2>&1
-        #cd ${VH_DOC_ROOT}/ && /usr/bin/composer require drush/drush -q
+        /usr/local/bin/composer create-project --no-interaction laravel/laravel ${VH_DOC_ROOT}/ >/dev/null 2>&1
     else
         echo 'Laravel already exist, abort!'
         exit 1

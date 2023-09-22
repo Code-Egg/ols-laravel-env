@@ -76,14 +76,12 @@ install_packages(){
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"  
     elif [ "${1}" = 'laravel' ]; then
         docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package composer"
-        #docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package unzip"
-        #docker compose exec -T litespeed /bin/bash -c "pkginstallctl.sh --package git"
     fi    
 }
 
 
 app_download(){
-    #install_packages ${1}
+    install_packages ${1}
     docker compose exec -T ${CONT_NAME} su -c "appinstallctl.sh --app ${1} --domain ${2}"
 }
 
